@@ -70,8 +70,8 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-      <div className="absolute inset-0 p-4">
+    <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+      <div className="absolute inset-0">
         <div className="relative w-full h-full overflow-hidden rounded-lg">
           <video
             autoPlay
@@ -85,54 +85,49 @@ const Home: React.FC = () => {
           </video>
         </div>
       </div>
-      <div className="absolute inset-0 bg-black bg-opacity-30">
-        <div className="flex items-end justify-center h-full pb-20">
-          <form
-            onSubmit={handleSubmit}
-            className="relative w-full max-w-lg mx-4"
+      <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+        <form onSubmit={handleSubmit} className="relative w-full max-w-lg mx-4">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => handleInputChange(e.target.value)}
+            placeholder="Enter a Disease..."
+            className="w-full py-5 px-6 pr-12 rounded-full bg-white bg-opacity-60 backdrop-blur-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base"
+          />
+          {suggestions.length > 0 && (
+            <ul className="absolute z-10 w-full bg-white mt-1 rounded-md shadow-lg">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-blue-500"
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
+          <button
+            type="submit"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300 ease-in-out"
+            onClick={() => (window.location.href = "/ask")}
           >
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => handleInputChange(e.target.value)}
-              placeholder="Enter a Disease..."
-              className="w-full py-3 px-6 pr-12 rounded-full bg-white bg-opacity-60 backdrop-blur-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-            {suggestions.length > 0 && (
-              <ul className="absolute z-10 w-full bg-white mt-1 rounded-md shadow-lg">
-                {suggestions.map((suggestion, index) => (
-                  <li
-                    key={index}
-                    onClick={() => handleSuggestionClick(suggestion)}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-blue-500"
-                  >
-                    {suggestion}
-                  </li>
-                ))}
-              </ul>
-            )}
-            <button
-              type="submit"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300 ease-in-out"
-              onClick={() => (window.location.href = "/ask")}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 10l7-7m0 0l7 7m-7-7v18"
-                />
-              </svg>
-            </button>
-          </form>
-        </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 10l7-7m0 0l7 7m-7-7v18"
+              />
+            </svg>
+          </button>
+        </form>
       </div>
     </div>
   );
