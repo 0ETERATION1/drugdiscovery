@@ -17,7 +17,7 @@ const Home: React.FC = () => {
     "hepatitis",
     "breastcancer",
     "malaria",
-    "acetylcholinesterase",
+    "alzheimers",
     "influenza",
 
     // Add more diseases here
