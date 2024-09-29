@@ -104,8 +104,8 @@ const Home: React.FC = () => {
 
   return (
     <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
-      <div className="absolute inset-0">
-        <div className="relative w-full h-full overflow-hidden rounded-lg">
+      <div className="absolute inset-0 p-4 md:p-8 lg:p-12">
+        <div className="relative w-full h-full overflow-hidden rounded-3xl">
           <video
             autoPlay
             loop
