@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Home: React.FC = () => {
   const [query, setQuery] = useState<string>("");
@@ -63,10 +64,13 @@ const Home: React.FC = () => {
     setSuggestions([]);
   };
 
+  const router = useRouter();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Query submitted:", query);
     setSuggestions([]);
+    router.push(`/drug?query=${encodeURIComponent(query)}`);
   };
 
   return (
@@ -110,7 +114,6 @@ const Home: React.FC = () => {
           <button
             type="submit"
             className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300 ease-in-out"
-            onClick={() => (window.location.href = "/ask")}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
