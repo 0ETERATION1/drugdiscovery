@@ -11,8 +11,13 @@ declare global {
   }
 }
 
+// Define a type for the SMILES_DATA object
+type SmilesData = {
+  [key: string]: string;
+};
+
 // SMILES data stored as a JavaScript object
-const SMILES_DATA = {
+const SMILES_DATA: SmilesData = {
   acetylcholinesterase: "CCN(CC)CCNS(=O)(=O)c1cccc2ccccc12",
   covid: "Cc1noc(NC(=O)c2ccc(-c3cc(C(F)(F)F)nn3C)s2)c1[N+](=O)[O-]",
   influenza: "c1csc(-c2cc(CNC34CC5CC(CC(C5)C3)C4)no2)c1",
@@ -53,12 +58,8 @@ export default function ClientDrugPage() {
       });
 
     // Get SMILES notation from the stored data
-    const smiles = SMILES_DATA[diseaseName.toLowerCase()];
-    if (smiles) {
-      setSmilesNotation(smiles);
-    } else {
-      setSmilesNotation("SMILES not found");
-    }
+    const smiles = SMILES_DATA[diseaseName.toLowerCase()] || "SMILES not found";
+    setSmilesNotation(smiles);
   }, [diseaseName]);
 
   const initViewer = (data: string) => {
