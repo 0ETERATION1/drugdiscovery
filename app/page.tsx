@@ -99,6 +99,11 @@ const Home: React.FC = () => {
     router.push(`/drug?query=${encodeURIComponent(query)}`);
   };
 
+  // Add this function to limit the number of visible suggestions
+  const getVisibleSuggestions = () => {
+    return suggestions.slice(0, 5); // Show only the first 5 suggestions
+  };
+
   return (
     <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
       <div className="absolute inset-0">
@@ -123,15 +128,15 @@ const Home: React.FC = () => {
             onChange={(e) => handleInputChange(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Enter a Disease..."
-            className="w-full py-6 px-6 pr-12 rounded-full bg-white bg-opacity-60 backdrop-blur-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base"
+            className="w-full py-3 px-6 pr-12 rounded-full bg-white bg-opacity-60 backdrop-blur-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base"
           />
           {suggestions.length > 0 && (
-            <ul className="absolute z-10 w-full bg-white mt-1 rounded-md shadow-lg">
-              {suggestions.map((suggestion, index) => (
+            <ul className="absolute z-10 w-full bg-white rounded-2xl shadow-lg overflow-hidden max-h-40 overflow-y-auto mt-1">
+              {getVisibleSuggestions().map((suggestion, index) => (
                 <li
                   key={index}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className={`px-4 py-2 hover:bg-gray-100 cursor-pointer text-blue-500 ${
+                  className={`px-6 py-1.5 hover:bg-gray-100 cursor-pointer text-blue-500 ${
                     index === selectedIndex ? "bg-gray-100" : ""
                   }`}
                 >
