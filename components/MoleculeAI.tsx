@@ -1,0 +1,105 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+
+interface MoleculeAIProps {
+  molData: string;
+  diseaseName: string;
+}
+
+const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
+  const [description, setDescription] = useState<string>("");
+  const [question, setQuestion] = useState<string>("");
+  const [answer, setAnswer] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (molData) {
+      describeMolecule(molData);
+    }
+  }, [molData]);
+
+  const describeMolecule = async (data: string) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/py/openai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `Describe this molecule in simple terms: ${data}`,
+        }),
+      });
+      const result = await response.json();
+      setDescription(result.result);
+    } catch (error) {
+      console.error("Error describing molecule:", error);
+      setDescription("Failed to generate description.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleQuestionSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/py/openai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `Given this molecule: ${molData}, answer the following question: ${question}`,
+        }),
+      });
+      const result = await response.json();
+      setAnswer(result.result);
+    } catch (error) {
+      console.error("Error answering question:", error);
+      setAnswer("Failed to generate an answer.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="w-full max-w-4xl mt-8">
+      <h2 className="text-2xl font-bold mb-4">AI Analysis for {diseaseName}</h2>
+
+      <div className="mb-6">
+        <h3 className="text-xl font-semibold mb-2">Molecule Description</h3>
+        {isLoading ? (
+          <p>Generating description...</p>
+        ) : (
+          <p className="bg-gray-100 p-4 rounded">{description}</p>
+        )}
+      </div>
+
+      <div>
+        <h3 className="text-xl font-semibold mb-2">Ask a Question</h3>
+        <form onSubmit={handleQuestionSubmit} className="mb-4">
+          <input
+            type="text"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            className="w-full p-2 border rounded mb-2"
+            placeholder="Ask about the molecule..."
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            disabled={isLoading}
+          >
+            {isLoading ? "Processing..." : "Submit"}
+          </button>
+        </form>
+        {answer && (
+          <div>
+            <h4 className="text-lg font-semibold mb-2">Answer</h4>
+            <p className="bg-gray-100 p-4 rounded">{answer}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default MoleculeAI;
