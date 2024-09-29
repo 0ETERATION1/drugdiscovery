@@ -12,7 +12,6 @@ const Home: React.FC = () => {
   const diseases = [
     "covid",
     "cholera",
-    "flu",
     "diabetes",
     "arthritis",
     "crohns",
