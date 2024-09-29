@@ -10,7 +10,7 @@ const Home: React.FC = () => {
 
   // List of diseases for autocomplete
   const diseases = [
-    "covid-19",
+    "covid",
     "cholera",
     "flu",
     "diabetes",
