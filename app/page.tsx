@@ -8,6 +8,7 @@ const Home: React.FC = () => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [error, setError] = useState<string | null>(null);
+  const [isValidSelection, setIsValidSelection] = useState<boolean>(false);
 
   // List of diseases for autocomplete
   const diseases = [
@@ -20,8 +21,7 @@ const Home: React.FC = () => {
     "malaria",
     "alzheimers",
     "influenza",
-    "measles",
-    "mumps",
+
     // Add more diseases here
   ];
 
@@ -29,6 +29,7 @@ const Home: React.FC = () => {
   const handleInputChange = (input: string) => {
     setQuery(input);
     setSelectedIndex(-1);
+    setIsValidSelection(false);
 
     // Autocorrect
     const correctedInput = autocorrect(input);
@@ -88,6 +89,7 @@ const Home: React.FC = () => {
     setQuery(suggestion);
     setSuggestions([]);
     setSelectedIndex(-1);
+    setIsValidSelection(true);
   };
 
   const router = useRouter();
@@ -95,13 +97,14 @@ const Home: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const trimmedQuery = query.trim();
-    if (trimmedQuery.length === 0) {
-      // If the query is empty or only contains whitespace, don't navigate
-      console.log("Empty query, staying on the current page");
+    if (trimmedQuery.length === 0 || !isValidSelection) {
+      // If the query is empty or not a valid selection, don't navigate
+      setError("Please select a disease from the suggestions.");
       return;
     }
     console.log("Query submitted:", trimmedQuery);
     setSuggestions([]);
+    setError(null);
     router.push(`/drug?query=${encodeURIComponent(trimmedQuery)}`);
   };
 
@@ -111,7 +114,10 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+    <div className="relative w-full h-screen overflow-hidden flex flex-col items-center justify-center">
+      <header className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 z-18">
+        <h1 className="text-2xl font-bold text-center">heisenberg.ai</h1>
+      </header>
       <div className="absolute inset-0 p-4 md:p-8 lg:p-12">
         <div className="relative w-full h-full overflow-hidden rounded-3xl">
           <video
@@ -127,15 +133,36 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-        <form onSubmit={handleSubmit} className="relative w-full max-w-lg mx-4">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => handleInputChange(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Enter a Disease..."
-            className="w-full py-3 px-6 pr-12 rounded-full bg-white bg-opacity-60 backdrop-blur-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base"
-          />
+        <div className="relative w-full max-w-lg mx-4">
+          <form onSubmit={handleSubmit} className="relative mb-2">
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => handleInputChange(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Enter a Disease..."
+              className="w-full py-3 px-6 pr-12 rounded-full bg-white bg-opacity-60 backdrop-blur-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base"
+            />
+            <button
+              type="submit"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300 ease-in-out"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 10l7-7m0 0l7 7m-7-7v18"
+                />
+              </svg>
+            </button>
+          </form>
           {suggestions.length > 0 && (
             <ul className="absolute z-10 w-full bg-white rounded-2xl shadow-lg overflow-hidden max-h-40 overflow-y-auto mt-1">
               {getVisibleSuggestions().map((suggestion, index) => (
@@ -151,26 +178,12 @@ const Home: React.FC = () => {
               ))}
             </ul>
           )}
-          <button
-            type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300 ease-in-out"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 10l7-7m0 0l7 7m-7-7v18"
-              />
-            </svg>
-          </button>
-        </form>
+          {error && (
+            <p className="text-red-500 text-sm mt-2 text-center absolute w-full">
+              {error}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
