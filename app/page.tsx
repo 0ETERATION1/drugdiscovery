@@ -20,8 +20,7 @@ const Home: React.FC = () => {
     "malaria",
     "alzheimers",
     "influenza",
-    "measles",
-    "mumps",
+
     // Add more diseases here
   ];
 
@@ -111,7 +110,10 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+    <div className="relative w-full h-screen overflow-hidden flex flex-col items-center justify-center">
+      <header className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 z-18">
+        <h1 className="text-2xl font-bold text-center">heisenberg.ai</h1>
+      </header>
       <div className="absolute inset-0 p-4 md:p-8 lg:p-12">
         <div className="relative w-full h-full overflow-hidden rounded-3xl">
           <video
