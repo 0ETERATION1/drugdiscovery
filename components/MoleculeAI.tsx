@@ -73,13 +73,17 @@ const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
   };
 
   return (
-    <div className="w-full max-w-4xl mt-8">
-      <h2 className="text-2xl font-bold mb-4">AI Analysis for {diseaseName}</h2>
+    <div className="w-full max-w-4xl mt-8 mx-auto flex flex-col items-center">
+      <h2 className="text-2xl font-bold mb-4 text-center">
+        AI Analysis for {diseaseName}
+      </h2>
 
-      <div className="mb-6">
-        <h3 className="text-xl font-semibold mb-2">Molecule Description</h3>
+      <div className="mb-6 w-full">
+        <h3 className="text-xl font-semibold mb-2 text-center">
+          Molecule Description
+        </h3>
         {isLoading ? (
-          <p>Generating description...</p>
+          <p className="text-center">Generating description...</p>
         ) : (
           <div className="bg-gray-100 p-4 rounded">
             <ul className="list-disc pl-5 space-y-2">
@@ -91,8 +95,10 @@ const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
         )}
       </div>
 
-      <div>
-        <h3 className="text-xl font-semibold mb-2">Ask a Question</h3>
+      <div className="w-full">
+        <h3 className="text-xl font-semibold mb-2 text-center">
+          Ask a Question
+        </h3>
         <form onSubmit={handleQuestionSubmit} className="mb-4">
           <input
             type="text"
@@ -101,17 +107,19 @@ const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
             className="w-full p-2 border rounded mb-2"
             placeholder="Ask about the molecule..."
           />
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-            disabled={isLoading}
-          >
-            {isLoading ? "Processing..." : "Submit"}
-          </button>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              disabled={isLoading}
+            >
+              {isLoading ? "Processing..." : "Submit"}
+            </button>
+          </div>
         </form>
         {answer && (
           <div>
-            <h4 className="text-lg font-semibold mb-2">Answer</h4>
+            <h4 className="text-lg font-semibold mb-2 text-center">Answer</h4>
             <p className="bg-gray-100 p-4 rounded">{answer}</p>
           </div>
         )}
