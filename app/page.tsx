@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, KeyboardEvent } from "react";
 
 const Home: React.FC = () => {
   const [query, setQuery] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
   // List of diseases for autocomplete
   const diseases = [
@@ -26,6 +27,7 @@ const Home: React.FC = () => {
   // Updated function to handle both autocorrect and autocomplete
   const handleInputChange = (input: string) => {
     setQuery(input);
+    setSelectedIndex(-1);
 
     // Autocorrect
     const correctedInput = autocorrect(input);
@@ -58,9 +60,33 @@ const Home: React.FC = () => {
     return corrections[input.toLowerCase()] || input;
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (suggestions.length === 0) return;
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setSelectedIndex((prev) =>
+          prev < suggestions.length - 1 ? prev + 1 : prev
+        );
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
+        break;
+      case "Enter":
+        if (selectedIndex >= 0) {
+          e.preventDefault();
+          handleSuggestionClick(suggestions[selectedIndex]);
+        }
+        break;
+    }
+  };
+
   const handleSuggestionClick = (suggestion: string) => {
     setQuery(suggestion);
     setSuggestions([]);
+    setSelectedIndex(-1);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -91,8 +117,9 @@ const Home: React.FC = () => {
             type="text"
             value={query}
             onChange={(e) => handleInputChange(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Enter a Disease..."
-            className="w-full py-5 px-6 pr-12 rounded-full bg-white bg-opacity-60 backdrop-blur-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base"
+            className="w-full py-6 px-6 pr-12 rounded-full bg-white bg-opacity-60 backdrop-blur-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 text-base"
           />
           {suggestions.length > 0 && (
             <ul className="absolute z-10 w-full bg-white mt-1 rounded-md shadow-lg">
@@ -100,7 +127,9 @@ const Home: React.FC = () => {
                 <li
                   key={index}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-blue-500"
+                  className={`px-4 py-2 hover:bg-gray-100 cursor-pointer text-blue-500 ${
+                    index === selectedIndex ? "bg-gray-100" : ""
+                  }`}
                 >
                   {suggestion}
                 </li>
