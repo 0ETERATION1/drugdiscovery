@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, KeyboardEvent } from "react";
+import { useRouter } from "next/navigation";
 
 const Home: React.FC = () => {
   const [query, setQuery] = useState<string>("");
@@ -47,19 +48,6 @@ const Home: React.FC = () => {
     }
   };
 
-  // Existing autocorrect function
-  const autocorrect = (input: string): string => {
-    const corrections: { [key: string]: string } = {
-      covd: "covid-19",
-      chlorea: "cholera",
-      flue: "flu",
-      diebetes: "diabetes",
-      artritis: "arthritis",
-      // Add more corrections here as needed
-    };
-    return corrections[input.toLowerCase()] || input;
-  };
-
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (suggestions.length === 0) return;
 
@@ -83,16 +71,32 @@ const Home: React.FC = () => {
     }
   };
 
+  // Existing autocorrect function
+  const autocorrect = (input: string): string => {
+    const corrections: { [key: string]: string } = {
+      covd: "covid-19",
+      chlorea: "cholera",
+      flue: "flu",
+      diebetes: "diabetes",
+      artritis: "arthritis",
+      // Add more corrections here as needed
+    };
+    return corrections[input.toLowerCase()] || input;
+  };
+
   const handleSuggestionClick = (suggestion: string) => {
     setQuery(suggestion);
     setSuggestions([]);
     setSelectedIndex(-1);
   };
 
+  const router = useRouter();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Query submitted:", query);
     setSuggestions([]);
+    router.push(`/drug?query=${encodeURIComponent(query)}`);
   };
 
   return (
@@ -139,7 +143,6 @@ const Home: React.FC = () => {
           <button
             type="submit"
             className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300 ease-in-out"
-            onClick={() => (window.location.href = "/ask")}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
