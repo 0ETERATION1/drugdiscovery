@@ -18,7 +18,7 @@ type SmilesData = {
 
 // SMILES data stored as a JavaScript object
 const SMILES_DATA: SmilesData = {
-  acetylcholinesterase: "CCN(CC)CCNS(=O)(=O)c1cccc2ccccc12",
+  alzheimers: "CCN(CC)CCNS(=O)(=O)c1cccc2ccccc12",
   covid: "Cc1noc(NC(=O)c2ccc(-c3cc(C(F)(F)F)nn3C)s2)c1[N+](=O)[O-]",
   influenza: "c1csc(-c2cc(CNC34CC5CC(CC(C5)C3)C4)no2)c1",
   malariae: "CCc1nc(N)nc(N)c1-c1ccc(Cl)cc1",

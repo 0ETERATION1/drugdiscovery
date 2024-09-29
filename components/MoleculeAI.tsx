@@ -75,56 +75,67 @@ const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
   };
 
   return (
-    <div className="w-full max-w-4xl mt-8 text-black dark:text-white">
-      <h2 className="text-2xl font-bold mb-4">
-        Theoretical AI Analysis for {diseaseName}
-      </h2>
-      <p className="text-red-500 mb-4">
-        Disclaimer: This is a hypothetical compound for educational purposes
-        only. It is not a real drug and has not been tested or approved for use.
-      </p>
+    <div className="flex justify-center items-center min-h-screen w-full bg-white dark:bg-gray-900">
+      <div className="w-full max-w-4xl p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+        <h2 className="text-3xl font-bold mb-6 text-center text-black dark:text-white">
+          Theoretical AI Analysis for {diseaseName}
+        </h2>
+        <p className="text-red-500 mb-8 text-center">
+          Disclaimer: This is a hypothetical compound for educational purposes
+          only. It is not a real drug and has not been tested or approved for
+          use.
+        </p>
 
-      <div className="mb-6">
-        <h3 className="text-xl font-semibold mb-2">
-          Hypothetical Molecule Description
-        </h3>
-        {isLoading ? (
-          <p className="text-center">Generating description...</p>
-        ) : (
-          <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded">
-            <pre className="whitespace-pre-wrap">{description}</pre>
-          </div>
-        )}
-      </div>
+        <div className="mb-8">
+          <h3 className="text-2xl font-semibold mb-4 text-center text-black dark:text-white">
+            Hypothetical Molecule Description
+          </h3>
+          {isLoading ? (
+            <p className="text-center text-black dark:text-white">
+              Generating description...
+            </p>
+          ) : (
+            <div className="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg">
+              <pre className="whitespace-pre-wrap text-center text-black dark:text-white">
+                {description}
+              </pre>
+            </div>
+          )}
+        </div>
 
-      <div>
-        <h3 className="text-xl font-semibold mb-2">
-          Ask a Question About This Concept
-        </h3>
-        <form onSubmit={handleQuestionSubmit} className="mb-4">
-          <input
-            type="text"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            className="w-full p-2 border rounded mb-2 text-black dark:text-white bg-white dark:bg-gray-700"
-            placeholder="Ask about this theoretical molecule..."
-          />
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-              disabled={isLoading}
-            >
-              {isLoading ? "Processing..." : "Submit"}
-            </button>
-          </div>
-        </form>
-        {answer && (
-          <div>
-            <h4 className="text-lg font-semibold mb-2">Answer</h4>
-            <p className="bg-gray-100 dark:bg-gray-800 p-4 rounded">{answer}</p>
-          </div>
-        )}
+        <div>
+          <h3 className="text-2xl font-semibold mb-4 text-center text-black dark:text-white">
+            Ask a Question About This Concept
+          </h3>
+          <form onSubmit={handleQuestionSubmit} className="mb-6">
+            <input
+              type="text"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              className="w-full p-3 border rounded-lg mb-4 text-black dark:text-white bg-white dark:bg-gray-700"
+              placeholder="Ask about this theoretical molecule..."
+            />
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                disabled={isLoading}
+              >
+                {isLoading ? "Processing..." : "Submit"}
+              </button>
+            </div>
+          </form>
+          {answer && (
+            <div>
+              <h4 className="text-xl font-semibold mb-3 text-center text-black dark:text-white">
+                Answer
+              </h4>
+              <p className="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg text-black dark:text-white">
+                {answer}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
