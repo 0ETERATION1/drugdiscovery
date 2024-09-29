@@ -17,7 +17,7 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  @apply text-black dark:text-white;
   background: linear-gradient(
       to bottom,
       transparent,
@@ -25,3 +25,5 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* Remove any conflicting color definitions here */
