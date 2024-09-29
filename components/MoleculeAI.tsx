@@ -89,7 +89,7 @@ const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
           Hypothetical Molecule Description
         </h3>
         {isLoading ? (
-          <p>Generating description...</p>
+          <p className="text-center">Generating description...</p>
         ) : (
           <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded">
             <pre className="whitespace-pre-wrap">{description}</pre>
@@ -109,13 +109,15 @@ const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
             className="w-full p-2 border rounded mb-2 text-black dark:text-white bg-white dark:bg-gray-700"
             placeholder="Ask about this theoretical molecule..."
           />
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-            disabled={isLoading}
-          >
-            {isLoading ? "Processing..." : "Submit"}
-          </button>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              disabled={isLoading}
+            >
+              {isLoading ? "Processing..." : "Submit"}
+            </button>
+          </div>
         </form>
         {answer && (
           <div>

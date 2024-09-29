@@ -7,6 +7,7 @@ const Home: React.FC = () => {
   const [query, setQuery] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [error, setError] = useState<string | null>(null);
 
   // List of diseases for autocomplete
   const diseases = [
@@ -17,7 +18,7 @@ const Home: React.FC = () => {
     "hepatitis",
     "breastcancer",
     "malaria",
-    "acetylcholinesterase",
+    "alzheimers",
     "influenza",
     "measles",
     "mumps",
@@ -93,9 +94,15 @@ const Home: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Query submitted:", query);
+    const trimmedQuery = query.trim();
+    if (trimmedQuery.length === 0) {
+      // If the query is empty or only contains whitespace, don't navigate
+      console.log("Empty query, staying on the current page");
+      return;
+    }
+    console.log("Query submitted:", trimmedQuery);
     setSuggestions([]);
-    router.push(`/drug?query=${encodeURIComponent(query)}`);
+    router.push(`/drug?query=${encodeURIComponent(trimmedQuery)}`);
   };
 
   // Add this function to limit the number of visible suggestions
