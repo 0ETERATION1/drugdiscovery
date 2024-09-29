@@ -26,7 +26,14 @@ const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: `Describe this molecule in simple terms: ${data}`,
+          prompt: `Analyze the following molecule structure and provide a concise description in 3 bullet points. Each bullet point should be one short sentence. Focus on:
+
+          • Key structural features (e.g., functional groups, rings, chains)
+          • Notable elements present and their significance
+          • A brief speculation on its potential pharmaceutical role based on structure
+
+          Use scientific terms where necessary, but keep explanations brief and clear. Here's the molecule data:
+          ${data}`,
         }),
       });
       const result = await response.json();
@@ -47,7 +54,12 @@ const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: `Given this molecule: ${molData}, answer the following question: ${question}`,
+          prompt: `Given this molecule structure:
+          ${molData}
+          
+          Please answer the following question concisely and accurately: "${question}"
+          
+          Provide a clear, scientific answer in 2-3 short sentences. Use technical terms where necessary, but briefly explain any complex concepts.`,
         }),
       });
       const result = await response.json();
@@ -69,7 +81,13 @@ const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
         {isLoading ? (
           <p>Generating description...</p>
         ) : (
-          <p className="bg-gray-100 p-4 rounded">{description}</p>
+          <div className="bg-gray-100 p-4 rounded">
+            <ul className="list-disc pl-5 space-y-2">
+              {description.split("\n").map((point, index) => (
+                <li key={index}>{point.replace(/^•\s*/, "")}</li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
 

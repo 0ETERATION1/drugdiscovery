@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Script from "next/script";
 import { useSearchParams } from "next/navigation";
+import MoleculeAI from "../../components/MoleculeAI";
 
 declare global {
   interface Window {
@@ -63,12 +64,13 @@ export default function ClientDrugPage() {
           Generated Medication For: {diseaseName}
         </h1>
       </header>
-      <div className="relative">
+      <div className="relative mb-8">
         <div
           ref={viewerRef}
           className="w-full max-w-1xl h-[200px] bg-gray-100 shadow-lg rounded-lg mx-auto"
         ></div>
       </div>
+      {molData && <MoleculeAI molData={molData} diseaseName={diseaseName} />}
     </div>
   );
 }
