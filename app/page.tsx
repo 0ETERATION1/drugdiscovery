@@ -1,27 +1,90 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Home: React.FC = () => {
   const [query, setQuery] = useState<string>("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
+  // List of diseases for autocomplete
+  const diseases = [
+    "covid-19",
+    "cholera",
+    "flu",
+    "diabetes",
+    "arthritis",
+    "crohns",
+    "hepatitis",
+    "breastcancer",
+    "malaria",
+    "acetylcholinesterase",
+    "influenza",
+
+    // Add more diseases here
+  ];
+
+  // Updated function to handle both autocorrect and autocomplete
+  const handleInputChange = (input: string) => {
+    setQuery(input);
+
+    // Autocorrect
+    const correctedInput = autocorrect(input);
+    if (correctedInput !== input) {
+      setQuery(correctedInput);
+      return;
+    }
+
+    // Autocomplete
+    if (input.length > 0) {
+      const matchedSuggestions = diseases.filter((disease) =>
+        disease.toLowerCase().startsWith(input.toLowerCase())
+      );
+      setSuggestions(matchedSuggestions);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  // Existing autocorrect function
+  const autocorrect = (input: string): string => {
+    const corrections: { [key: string]: string } = {
+      covd: "covid-19",
+      chlorea: "cholera",
+      flue: "flu",
+      diebetes: "diabetes",
+      artritis: "arthritis",
+      // Add more corrections here as needed
+    };
+    return corrections[input.toLowerCase()] || input;
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setQuery(suggestion);
+    setSuggestions([]);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Query submitted:", query);
+    setSuggestions([]);
   };
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover"
-      >
-        <source src="/video1.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <div className="absolute inset-0 p-4">
+        <div className="relative w-full h-full overflow-hidden rounded-lg">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute top-0 left-0 w-full h-full object-cover"
+          >
+            <source src="/video1.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
       <div className="absolute inset-0 bg-black bg-opacity-30">
         <div className="flex items-end justify-center h-full pb-20">
           <form
@@ -31,13 +94,27 @@ const Home: React.FC = () => {
             <input
               type="text"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Ask me anything..."
-              className="w-full py-3 px-6 pr-12 rounded-full bg-white bg-opacity-80 backdrop-blur-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onChange={(e) => handleInputChange(e.target.value)}
+              placeholder="Enter a Disease..."
+              className="w-full py-3 px-6 pr-12 rounded-full bg-white bg-opacity-60 backdrop-blur-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
+            {suggestions.length > 0 && (
+              <ul className="absolute z-10 w-full bg-white mt-1 rounded-md shadow-lg">
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-blue-500"
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
             <button
               type="submit"
               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300 ease-in-out"
+              onClick={() => (window.location.href = "/ask")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
