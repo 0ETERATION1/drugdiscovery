@@ -7,7 +7,6 @@ const Home: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle the query submission here
     console.log("Query submitted:", query);
   };
 
@@ -23,15 +22,18 @@ const Home: React.FC = () => {
         <source src="/video1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <div className="absolute inset-0 bg-black bg-opacity-50">
-        <div className="flex items-center justify-center h-full">
-          <form onSubmit={handleSubmit} className="relative">
+      <div className="absolute inset-0 bg-black bg-opacity-30">
+        <div className="flex items-end justify-center h-full pb-20">
+          <form
+            onSubmit={handleSubmit}
+            className="relative w-full max-w-lg mx-4"
+          >
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Ask me anything..."
-              className="w-80 py-3 px-6 pr-12 rounded-full bg-white bg-opacity-80 backdrop-blur-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full py-3 px-6 pr-12 rounded-full bg-white bg-opacity-80 backdrop-blur-sm text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <button
               type="submit"
