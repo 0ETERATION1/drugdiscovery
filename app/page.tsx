@@ -19,7 +19,8 @@ const Home: React.FC = () => {
     "malaria",
     "acetylcholinesterase",
     "influenza",
-
+    "measles",
+    "mumps",
     // Add more diseases here
   ];
 
