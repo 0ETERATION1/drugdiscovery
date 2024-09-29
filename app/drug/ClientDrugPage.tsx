@@ -49,7 +49,7 @@ export default function ClientDrugPage() {
   };
 
   return (
-    <>
+    <div className="container mx-auto px-4 py-8">
       <Script
         src="https://3dmol.org/build/3Dmol-min.js"
         onLoad={() => {
@@ -58,13 +58,17 @@ export default function ClientDrugPage() {
           }
         }}
       />
-      <h1 className="text-3xl font-bold mb-6">
-        Molecule Viewer: {diseaseName}
-      </h1>
-      <div
-        ref={viewerRef}
-        className="w-full max-w-4xl h-[600px] bg-white shadow-lg rounded-lg"
-      ></div>
-    </>
+      <header className="bg-black text-white py-10 mb-8">
+        <h1 className="text-3xl font-bold text-center">
+          Generated Medication For: {diseaseName}
+        </h1>
+      </header>
+      <div className="relative">
+        <div
+          ref={viewerRef}
+          className="w-full max-w-1xl h-[200px] bg-gray-100 shadow-lg rounded-lg mx-auto"
+        ></div>
+      </div>
+    </div>
   );
 }
