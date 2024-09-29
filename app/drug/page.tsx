@@ -49,7 +49,7 @@ export default function DrugPage() {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className="w-full min-h-screen flex flex-col items-center justify-start p-8 bg-gray-100">
       <Script
         src="https://3dmol.org/build/3Dmol-min.js"
         onLoad={() => {
@@ -58,12 +58,12 @@ export default function DrugPage() {
           }
         }}
       />
-      <h1 className="text-2xl font-bold mb-4">
+      <h1 className="text-3xl font-bold mb-6">
         Molecule Viewer: {diseaseName}
       </h1>
       <div
         ref={viewerRef}
-        className="w-full max-w-2xl h-[600px] bg-white shadow-lg rounded-lg"
+        className="w-full max-w-4xl h-[600px] bg-white shadow-lg rounded-lg"
       ></div>
     </div>
   );

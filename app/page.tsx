@@ -13,7 +13,6 @@ const Home: React.FC = () => {
     "covid",
     "cholera",
     "diabetes",
-    "arthritis",
     "crohns",
     "hepatitis",
     "breastcancer",
