@@ -116,10 +116,12 @@ const Home: React.FC = () => {
 
   return (
     <div className="relative w-full h-screen overflow-hidden flex flex-col items-center justify-center">
-      <header className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-4 z-18">
-        <h1 className="text-2xl font-bold text-center">heisenberg.ai</h1>
+      <header className="absolute top-0 left-0 w-full px-4 md:px-8 lg:px-12 py-2 z-20">
+        <h1 className="text-2xl font-extrabold text-center text-white/80 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300 p-2 rounded">
+          heisenberg.ai
+        </h1>
       </header>
-      <div className="absolute inset-0 p-4 md:p-8 lg:p-12">
+      <div className="absolute inset-0 p-4 md:p-8 lg:p-12 pt-16">
         <div className="relative w-full h-full overflow-hidden rounded-3xl">
           <video
             autoPlay
