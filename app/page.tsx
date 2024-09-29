@@ -12,15 +12,16 @@ const Home: React.FC = () => {
 
   // List of diseases for autocomplete
   const diseases = [
-    "covid",
+    "alzheimers",
+    "breastcancer",
     "cholera",
-    "diabetes",
+    "covid",
     "crohns",
     "hepatitis",
-    "breastcancer",
-    "malaria",
-    "alzheimers",
     "influenza",
+    "malaria",
+    "measles",
+    "mumps",
 
     // Add more diseases here
   ];

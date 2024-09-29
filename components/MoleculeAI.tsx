@@ -107,23 +107,34 @@ const MoleculeAI: React.FC<MoleculeAIProps> = ({ molData, diseaseName }) => {
           <h3 className="text-2xl font-semibold mb-4 text-center text-black dark:text-white">
             Ask a Question About This Concept
           </h3>
-          <form onSubmit={handleQuestionSubmit} className="mb-6">
+          <form onSubmit={handleQuestionSubmit} className="mb-6 relative">
             <input
               type="text"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              className="w-full p-3 border rounded-lg mb-4 text-black dark:text-white bg-white dark:bg-gray-700"
+              className="w-full py-3 px-6 pr-12 border rounded-full text-black dark:text-white bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Ask about this theoretical molecule..."
             />
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                disabled={isLoading}
+            <button
+              type="submit"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full transition duration-300 ease-in-out"
+              disabled={isLoading}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                {isLoading ? "Processing..." : "Submit"}
-              </button>
-            </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 10l7-7m0 0l7 7m-7-7v18"
+                />
+              </svg>
+            </button>
           </form>
           {answer && (
             <div>
