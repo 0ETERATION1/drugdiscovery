@@ -21,7 +21,7 @@ const SMILES_DATA: SmilesData = {
   alzheimers: "CCN(CC)CCNS(=O)(=O)c1cccc2ccccc12",
   covid: "Cc1noc(NC(=O)c2ccc(-c3cc(C(F)(F)F)nn3C)s2)c1[N+](=O)[O-]",
   influenza: "c1csc(-c2cc(CNC34CC5CC(CC(C5)C3)C4)no2)c1",
-  malariae: "CCc1nc(N)nc(N)c1-c1ccc(Cl)cc1",
+  malaria: "CCc1nc(N)nc(N)c1-c1ccc(Cl)cc1",
   breastcancer:
     "CC(=O)N[C@@H](COP(=O)(O)O)C(=O)N1CCC[C@H]1C(=O)N[C@H](C(=O)N[C@@H](Cc1ccccc1)C(N)=O)[C@@H](C)O",
   crohns: "O=C1C(Cl)c2cc(F)ccc2N1CCc1ccccc1",
