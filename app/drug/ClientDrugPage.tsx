@@ -34,6 +34,7 @@ const SMILES_DATA: SmilesData = {
 export default function ClientDrugPage() {
   const [molData, setMolData] = useState("");
   const [smilesNotation, setSmilesNotation] = useState("");
+  const [is3DmolReady, setIs3DmolReady] = useState(false);
   const viewerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const diseaseName = searchParams.get("query") || "default";
@@ -48,7 +49,7 @@ export default function ClientDrugPage() {
       })
       .then((data) => {
         setMolData(data);
-        if (window.$3Dmol) {
+        if (is3DmolReady) {
           initViewer(data);
         }
       })
@@ -60,7 +61,7 @@ export default function ClientDrugPage() {
     // Get SMILES notation from the stored data
     const smiles = SMILES_DATA[diseaseName.toLowerCase()] || "SMILES not found";
     setSmilesNotation(smiles);
-  }, [diseaseName]);
+  }, [diseaseName, is3DmolReady]);
 
   const initViewer = (data: string) => {
     if (viewerRef.current && window.$3Dmol) {
@@ -79,9 +80,7 @@ export default function ClientDrugPage() {
       <Script
         src="https://3dmol.org/build/3Dmol-min.js"
         onLoad={() => {
-          if (molData) {
-            initViewer(molData);
-          }
+          setIs3DmolReady(true);
         }}
       />
       <header className="bg-black text-white py-10 mb-8">
